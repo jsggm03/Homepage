@@ -43,8 +43,8 @@ export default function FeaturedShorts() {
       title: "갑자기 - 아이오아이(I.O.I) Cover",
       description: "최신곡 중 알고리즘을 탈 가능성이 있는 곡을 선택해 라이브 커버 형식으로 제작한 콘텐츠",
       badges: ["4만+ 조회", "Algorithm Pick"],
-      url: "https://www.tiktok.com/@min_s_ing/video/7631518234302369031",
-      videoId: "7631518234302369031",
+      url: "https://www.tiktok.com/@min_s_ing/video/7643415094465973511",
+      videoId: "7643415094465973511",
     },
     {
       platform: "youtube",
@@ -59,8 +59,8 @@ export default function FeaturedShorts() {
       title: "Golden - KPop Demon Hunters Cover",
       description: "세계적으로 인기가 높았던 곡을 활용해 트렌드와 음악 콘텐츠를 연결한 콘텐츠",
       badges: ["Trend-based", "TikTok"],
-      url: "https://www.tiktok.com/@min_s_ing/video/7643415094465973511",
-      videoId: "7643415094465973511",
+      url: "https://www.tiktok.com/@min_s_ing/video/7631518234302369031",
+      videoId: "7631518234302369031",
     },
   ]
 
