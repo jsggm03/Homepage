@@ -54,7 +54,7 @@ export default function About() {
         >
           <motion.div variants={itemVariants} className="mb-12">
             <p className="text-sm font-medium text-primary mb-2 tracking-wide">ABOUT</p>
-            <h2 className="font-serif text-4xl md:text-5xl font-bold text-balance">소개</h2>
+            <h2 className="font-sans text-4xl md:text-5xl font-bold tracking-tight text-balance">소개</h2>
           </motion.div>
 
           <motion.div variants={itemVariants} className="grid gap-4 sm:grid-cols-3 mb-12">
@@ -70,9 +70,12 @@ export default function About() {
             ))}
           </motion.div>
 
-          <motion.div variants={itemVariants} className="p-6 sm:p-8 bg-secondary/50 border border-border rounded-2xl">
+          <motion.div
+            variants={itemVariants}
+            className="p-6 sm:p-8 bg-secondary/50 border border-border rounded-2xl text-center"
+          >
             <h3 className="font-semibold text-base mb-5 text-foreground">관심 분야</h3>
-            <div className="flex flex-wrap gap-2.5">
+            <div className="flex flex-wrap justify-center gap-2.5">
               {interests.map((interest) => (
                 <span
                   key={interest.label}
