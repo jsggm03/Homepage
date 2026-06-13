@@ -1,7 +1,8 @@
 "use client"
 
+import { useEffect } from "react"
 import { motion } from "framer-motion"
-import { Play, ExternalLink, Youtube, Music2 } from "lucide-react"
+import { Youtube, Music2 } from "lucide-react"
 
 interface Short {
   platform: "youtube" | "tiktok"
@@ -10,6 +11,29 @@ interface Short {
   badges: string[]
   url: string
   embedUrl?: string
+  videoId?: string
+}
+
+function TikTokEmbed({ url, videoId, title }: { url: string; videoId: string; title: string }) {
+  return (
+    <blockquote
+      className="tiktok-embed"
+      cite={url}
+      data-video-id={videoId}
+      style={{
+        maxWidth: "100%",
+        minWidth: "100%",
+        margin: 0,
+      }}
+      title={title}
+    >
+      <section>
+        <a target="_blank" rel="noopener noreferrer" href={url}>
+          {title}
+        </a>
+      </section>
+    </blockquote>
+  )
 }
 
 export default function FeaturedShorts() {
@@ -17,9 +41,10 @@ export default function FeaturedShorts() {
     {
       platform: "tiktok",
       title: "갑자기 - 아이오아이(I.O.I) Cover",
-      description: "최신곡 중 알고리즘을 탈 가능성이 있는 곡을 선택해 라이브 커버 형식으로 제작한 숏폼 콘텐츠",
+      description: "최신곡 중 알고리즘을 탈 가능성이 있는 곡을 선택해 라이브 커버 형식으로 제작한 콘텐츠",
       badges: ["4만+ 조회", "Algorithm Pick"],
       url: "https://www.tiktok.com/@min_s_ing/video/7631518234302369031",
+      videoId: "7631518234302369031",
     },
     {
       platform: "youtube",
@@ -32,11 +57,27 @@ export default function FeaturedShorts() {
     {
       platform: "tiktok",
       title: "Golden - KPop Demon Hunters Cover",
-      description: "세계적으로 인기가 높았던 곡을 활용해 트렌드와 음악 콘텐츠를 연결한 숏폼 콘텐츠",
+      description: "세계적으로 인기가 높았던 곡을 활용해 트렌드와 음악 콘텐츠를 연결한 콘텐츠",
       badges: ["Trend-based", "TikTok"],
       url: "https://www.tiktok.com/@min_s_ing/video/7643415094465973511",
+      videoId: "7643415094465973511",
     },
   ]
+
+  useEffect(() => {
+    const existingScript = document.querySelector('script[src="https://www.tiktok.com/embed.js"]')
+
+    if (!existingScript) {
+      const script = document.createElement("script")
+      script.src = "https://www.tiktok.com/embed.js"
+      script.async = true
+      document.body.appendChild(script)
+      return
+    }
+
+    const tiktok = (window as unknown as { tiktok?: { load?: () => void } }).tiktok
+    tiktok?.load?.()
+  }, [])
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -58,10 +99,12 @@ export default function FeaturedShorts() {
           viewport={{ once: true, margin: "-100px" }}
         >
           <motion.div variants={itemVariants} className="mb-10">
-            <p className="text-sm font-medium text-primary mb-2 tracking-wide">FEATURED SHORTS</p>
-            <h2 className="font-serif text-4xl md:text-5xl font-bold text-balance mb-3">대표 숏폼 콘텐츠</h2>
+            <p className="text-sm font-medium text-primary mb-2 tracking-wide">FEATURED CONTENTS</p>
+            <h2 className="font-sans text-4xl md:text-5xl font-bold tracking-tight text-balance mb-3">
+              대표 콘텐츠
+            </h2>
             <p className="text-muted-foreground leading-relaxed max-w-2xl">
-              곡 선정부터 구간 구성까지, 직접 기획하고 제작한 숏폼 콘텐츠입니다.
+              곡 선정과 구간 구성, 플랫폼 반응을 고려해 제작한 음악 콘텐츠입니다.
             </p>
           </motion.div>
 
@@ -72,7 +115,7 @@ export default function FeaturedShorts() {
                 variants={itemVariants}
                 className="flex flex-col bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 transition-colors"
               >
-                <div className="relative w-full aspect-[9/16] bg-secondary">
+                <div className="relative w-full aspect-[9/16] bg-secondary overflow-hidden">
                   {short.platform === "youtube" && short.embedUrl ? (
                     <iframe
                       src={short.embedUrl}
@@ -82,24 +125,11 @@ export default function FeaturedShorts() {
                       className="absolute inset-0 w-full h-full"
                       loading="lazy"
                     />
-                  ) : (
-                    <a
-                      href={short.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group absolute inset-0 flex flex-col items-center justify-center gap-4 text-center px-6 focus:outline-none focus:ring-2 focus:ring-primary"
-                      aria-label={`TikTok에서 ${short.title} 보기 (새 창)`}
-                    >
-                      <span className="w-16 h-16 rounded-full bg-primary/15 flex items-center justify-center group-hover:bg-primary/25 transition-colors">
-                        <Play className="w-7 h-7 text-primary fill-primary" aria-hidden="true" />
-                      </span>
-                      <span className="inline-flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-full text-sm font-medium text-foreground group-hover:border-primary/50 transition-colors">
-                        <Music2 className="w-4 h-4 text-primary" aria-hidden="true" />
-                        TikTok에서 보기
-                        <ExternalLink className="w-3.5 h-3.5 text-muted-foreground" aria-hidden="true" />
-                      </span>
-                    </a>
-                  )}
+                  ) : short.platform === "tiktok" && short.videoId ? (
+                    <div className="absolute inset-0 overflow-y-auto bg-secondary">
+                      <TikTokEmbed url={short.url} videoId={short.videoId} title={short.title} />
+                    </div>
+                  ) : null}
                 </div>
 
                 <div className="flex flex-col flex-1 p-5">
@@ -113,8 +143,10 @@ export default function FeaturedShorts() {
                       {short.platform === "youtube" ? "YouTube" : "TikTok"}
                     </span>
                   </div>
+
                   <h3 className="font-semibold text-base mb-2 text-balance leading-snug">{short.title}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed text-pretty mb-4">{short.description}</p>
+
                   <div className="flex flex-wrap gap-2 mt-auto">
                     {short.badges.map((badge) => (
                       <span
