@@ -130,3 +130,8 @@
 html {
   scroll-behavior: smooth;
 }
+/* Make large display titles feel cleaner and less sentimental */
+.font-serif {
+  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+  letter-spacing: -0.035em;
+}
