@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Users, BookOpen, Radio, Globe } from "lucide-react"
+import { Users, BookOpen, Radio } from "lucide-react"
 import type { ReactNode } from "react"
 
 interface ActivityGroup {
@@ -26,17 +26,6 @@ export default function Activities() {
       ],
     },
     {
-      icon: <BookOpen size={24} strokeWidth={1.6} className="text-primary" />,
-      title: "Education Support",
-      ko: "교육 지원",
-      items: [
-        "차오름 튜터링 데이터분석기초 담당 튜터",
-        "차오름교양대학 제2기 차오름 멘토단 사무팀 팀원",
-        "차오름교양대학 제2기 3반 담당 멘토",
-        "교수학습지원센터 학습법 소모임 우수팀",
-      ],
-    },
-    {
       icon: <Radio size={24} strokeWidth={1.6} className="text-primary" />,
       title: "Media & Communication",
       ko: "미디어 · 커뮤니케이션",
@@ -48,10 +37,14 @@ export default function Activities() {
       ],
     },
     {
-      icon: <Globe size={24} strokeWidth={1.6} className="text-primary" />,
-      title: "Global Experience",
-      ko: "글로벌 경험",
-      items: ["필리핀 LSLC 어학연수 1개월 참여"],
+      icon: <BookOpen size={24} strokeWidth={1.6} className="text-primary" />,
+      title: "Learning & Experience",
+      ko: "학습 지원 · 확장 경험",
+      items: [
+        "차오름 튜터링 데이터분석기초 담당 튜터",
+        "차오름교양대학 제2기 차오름 멘토단 사무팀 팀원",
+        "필리핀 LSLC 어학연수 1개월 참여",
+      ],
     },
   ]
 
@@ -76,10 +69,10 @@ export default function Activities() {
         >
           <motion.div variants={itemVariants} className="mb-12">
             <p className="text-sm font-medium text-primary mb-2 tracking-wide">ACTIVITIES</p>
-            <h2 className="font-serif text-4xl md:text-5xl font-bold text-balance">활동</h2>
+            <h2 className="font-sans text-4xl md:text-5xl font-bold tracking-tight text-balance">활동</h2>
           </motion.div>
 
-          <div className="grid gap-5 md:grid-cols-2">
+          <div className="grid gap-5 lg:grid-cols-3">
             {groups.map((group) => (
               <motion.div
                 key={group.title}
@@ -91,10 +84,11 @@ export default function Activities() {
                     {group.icon}
                   </div>
                   <div>
-                    <h3 className="font-serif text-lg font-bold text-foreground leading-tight">{group.title}</h3>
+                    <h3 className="font-sans text-lg font-bold text-foreground leading-tight">{group.title}</h3>
                     <p className="text-sm text-primary font-medium">{group.ko}</p>
                   </div>
                 </div>
+
                 <ul className="space-y-2.5">
                   {group.items.map((item) => (
                     <li key={item} className="flex items-start gap-2.5 text-sm text-muted-foreground leading-relaxed">
