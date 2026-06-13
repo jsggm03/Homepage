@@ -1,0 +1,136 @@
+"use client"
+
+import { motion } from "framer-motion"
+import { Play, ExternalLink, Youtube, Music2 } from "lucide-react"
+
+interface Short {
+  platform: "youtube" | "tiktok"
+  title: string
+  description: string
+  badges: string[]
+  url: string
+  embedUrl?: string
+}
+
+export default function FeaturedShorts() {
+  const shorts: Short[] = [
+    {
+      platform: "tiktok",
+      title: "갑자기 - 아이오아이(I.O.I) Cover",
+      description: "최신곡 중 알고리즘을 탈 가능성이 있는 곡을 선택해 라이브 커버 형식으로 제작한 숏폼 콘텐츠",
+      badges: ["4만+ 조회", "Algorithm Pick"],
+      url: "https://www.tiktok.com/@min_s_ing/video/7631518234302369031",
+    },
+    {
+      platform: "youtube",
+      title: "BLACKHOLE - IVE Cover",
+      description: "커버 보컬로 자주 활용되는 구간을 골라 제작한 숏폼 커버 콘텐츠",
+      badges: ["Vocal Cover", "YouTube Shorts"],
+      url: "https://www.youtube.com/shorts/3OgwApG1WSc",
+      embedUrl: "https://www.youtube.com/embed/3OgwApG1WSc",
+    },
+    {
+      platform: "tiktok",
+      title: "Golden - KPop Demon Hunters Cover",
+      description: "세계적으로 인기가 높았던 곡을 활용해 트렌드와 음악 콘텐츠를 연결한 숏폼 콘텐츠",
+      badges: ["Trend-based", "TikTok"],
+      url: "https://www.tiktok.com/@min_s_ing/video/7643415094465973511",
+    },
+  ]
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.1 } },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 24 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  }
+
+  return (
+    <section id="featured-shorts" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-5xl mx-auto">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+        >
+          <motion.div variants={itemVariants} className="mb-10">
+            <p className="text-sm font-medium text-primary mb-2 tracking-wide">FEATURED SHORTS</p>
+            <h2 className="font-serif text-4xl md:text-5xl font-bold text-balance mb-3">대표 숏폼 콘텐츠</h2>
+            <p className="text-muted-foreground leading-relaxed max-w-2xl">
+              곡 선정부터 구간 구성까지, 직접 기획하고 제작한 숏폼 콘텐츠입니다.
+            </p>
+          </motion.div>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {shorts.map((short) => (
+              <motion.article
+                key={short.title}
+                variants={itemVariants}
+                className="flex flex-col bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/50 transition-colors"
+              >
+                <div className="relative w-full aspect-[9/16] bg-secondary">
+                  {short.platform === "youtube" && short.embedUrl ? (
+                    <iframe
+                      src={short.embedUrl}
+                      title={short.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      className="absolute inset-0 w-full h-full"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <a
+                      href={short.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group absolute inset-0 flex flex-col items-center justify-center gap-4 text-center px-6 focus:outline-none focus:ring-2 focus:ring-primary"
+                      aria-label={`TikTok에서 ${short.title} 보기 (새 창)`}
+                    >
+                      <span className="w-16 h-16 rounded-full bg-primary/15 flex items-center justify-center group-hover:bg-primary/25 transition-colors">
+                        <Play className="w-7 h-7 text-primary fill-primary" aria-hidden="true" />
+                      </span>
+                      <span className="inline-flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-full text-sm font-medium text-foreground group-hover:border-primary/50 transition-colors">
+                        <Music2 className="w-4 h-4 text-primary" aria-hidden="true" />
+                        TikTok에서 보기
+                        <ExternalLink className="w-3.5 h-3.5 text-muted-foreground" aria-hidden="true" />
+                      </span>
+                    </a>
+                  )}
+                </div>
+
+                <div className="flex flex-col flex-1 p-5">
+                  <div className="flex items-center gap-2 mb-3">
+                    {short.platform === "youtube" ? (
+                      <Youtube className="w-4 h-4 text-primary" aria-hidden="true" />
+                    ) : (
+                      <Music2 className="w-4 h-4 text-primary" aria-hidden="true" />
+                    )}
+                    <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                      {short.platform === "youtube" ? "YouTube" : "TikTok"}
+                    </span>
+                  </div>
+                  <h3 className="font-semibold text-base mb-2 text-balance leading-snug">{short.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed text-pretty mb-4">{short.description}</p>
+                  <div className="flex flex-wrap gap-2 mt-auto">
+                    {short.badges.map((badge) => (
+                      <span
+                        key={badge}
+                        className="px-2.5 py-1 bg-secondary border border-border rounded-full text-xs font-medium text-foreground"
+                      >
+                        {badge}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
